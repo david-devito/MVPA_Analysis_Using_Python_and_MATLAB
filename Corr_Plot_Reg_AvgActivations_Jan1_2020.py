@@ -1,3 +1,12 @@
+# David De Vito - Last update: Jan 1, 2020
+
+# Code used for analysis of data for SpatialSpatial Working Memory Task
+# Asks for user input of categories and time periods
+# Loads previously-created files containing average activations for each category during inputted time periods
+# Correlates activations and allows for plotting correlations
+# Regresses final correlation matrix with activation templates
+
+
 # IMPORT PROCESSING PACKAGES
 from sys import exit
 import os
