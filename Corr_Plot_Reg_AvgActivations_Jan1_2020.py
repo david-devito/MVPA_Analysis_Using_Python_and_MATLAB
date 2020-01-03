@@ -3,8 +3,10 @@
 # Code used for analysis of data for SpatialSpatial Working Memory Task
 # Asks for user input of categories and time periods
 # Loads previously-created files containing average activations for each category during inputted time periods
+    # Files are created by script called: AvgActivPerCond_FeatSelect...
 # Correlates activations and allows for plotting correlations
 # Regresses final correlation matrix with activation templates
+
 
 
 # IMPORT PROCESSING PACKAGES
@@ -20,7 +22,7 @@ from statistics import mean
 # DIRECTORIES
 baseDataFolder = '/home/data/DCM_WM/'
 maskFolder = '/model/inv_ROIs/'
-avgActivationFolder = '/model/VolsAsImages/'
+avgActivationFolder = '/model/AvgActivationRegression/'
 
 # INPUT VARIABLES
 # Input subject numbers
@@ -49,6 +51,9 @@ try:
 except:
     print('\nInvalid Participant Number. Check Subject: ' + subjects[0]); exit()
 
+# Use Data Files with Feature Selection?
+featSelectInput = input('Use Data Files with Feature Selection? (y or n): ')
+
 # Plot Data?
 makePlot = input('Plot the data? (y or n): ')
 
@@ -76,13 +81,13 @@ print(f'Tested Time Period: {testingCat}_{startTR_Test}')
 print(f'Mask_Name: {mask_name}')
 
 avgActAcrossSubjects = []
-for subjNum in range(0, len(subjects)):
+for subjNum in subjects:
     # LOAD CSV CONTAINING AVERAGE VOXEL ACTIVATIONS FOR EACH CATEGORY
     try:
-        trainingActivations = pd.read_csv((baseDataFolder + str(subjects[subjNum]) + avgActivationFolder + "/AvgRepresentationDF_" + trainingCat + "_" + str(startTR_Train) + "_" + mask_name + "_" + str(trainingCombinedTRs) + ".csv"), sep=",")
-        testingActivations = pd.read_csv((baseDataFolder + str(subjects[subjNum]) + avgActivationFolder + "/AvgRepresentationDF_" + testingCat + "_" + str(startTR_Test) + "_" + mask_name + "_" + str(testingCombinedTRs) + ".csv"), sep=",")
+        trainingActivations = pd.read_csv((baseDataFolder + str(subjNum) + avgActivationFolder + "/AvgActivationByCat_" + trainingCat + "_" + str(startTR_Train) + "_" + mask_name + "_" + str(trainingCombinedTRs) + "FeatSel_" + featSelectInput + ".csv"), sep=",")
+        testingActivations = pd.read_csv((baseDataFolder + str(subjNum) + avgActivationFolder + "/AvgActivationByCat_" + testingCat + "_" + str(startTR_Test) + "_" + mask_name + "_" + str(testingCombinedTRs) + "FeatSel_" + featSelectInput + ".csv"), sep=",")
     except:
-        print('\nFile does not exist. Check Subject: ' + subjects[subjNum]); exit()
+        print('\nFile does not exist. Check Subject: ' + subjNum); exit()
 
     # Read in array of average activations for each category
     # Create list that contains average activations by voxel of all training categories and all testing categories
